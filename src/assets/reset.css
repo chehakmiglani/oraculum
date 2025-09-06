@@ -1,0 +1,49 @@
+/* Minimal, safe reset + strong guards for the dashboard */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+/* Neutralize opinionated global styles from other pages/routes */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* Force our layout to use the full viewport width and normal opacity */
+.dashboard-wrapper,
+.dashboard-content,
+.dashboard-scroll {
+  max-width: none !important;
+  width: 100% !important;
+  opacity: 1 !important;
+}
+
+/* Sidebar items sometimes get dimmed by global rules — force them back */
+.sidebar .item {
+  opacity: 1 !important;
+  color: #0f172a !important;
+}
+
+/* Prevent unexpected paddings/margins added by globals */
+.dashboard-scroll {
+  padding: 2rem !important;
+}
