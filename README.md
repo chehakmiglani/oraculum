@@ -9,6 +9,16 @@ Oraculum helps you plan, analyze, and accelerate your career with AI:
 Frontend: Vite + Vue 3
 Backend: FastAPI (proxied at /api)
 
+## Deployment (Vercel)
+
+1. Create the project in the Vercel dashboard (Import Git repo).
+2. Build Command: `npm run vercel-build`
+3. Output Directory: `dist`
+4. (Optional) Set `VITE_API_BASE_URL` env var if you host the backend separately.
+5. Deploy.
+
+The `vercel.json` routes `/api/*` to a placeholder backend URL. Replace that with your deployed backend endpoint.
+
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
