@@ -1,10 +1,23 @@
-const BASE = import.meta.env.VITE_API_BASE_URL || '' // when empty, use Vite proxy
+const BASE = import.meta.env.VITE_API_BASE_URL || '' // when empty locally, use Vite proxy or Vercel rewrite
+
+if (import.meta.env.PROD && !BASE) {
+  // eslint-disable-next-line no-console
+  console.warn('[API] VITE_API_BASE_URL is empty in production. If you are not using Vercel rewrites, set it in Project Settings to your backend URL.')
+}
+
+function joinUrl(base: string, path: string) {
+  if (!base) return path
+  const b = base.replace(/\/+$/g, '').trim() // drop trailing forward slashes and trim
+  const p = path.startsWith('/') ? path : `/${path}`
+  return `${b}${p}`
+}
 
 async function http<T>(path: string, options: RequestInit = {}, timeoutMs = 20000): Promise<T> {
   const controller = new AbortController()
   const id = setTimeout(() => controller.abort(), timeoutMs)
   try {
-    const res = await fetch(`${BASE}${path}`.replace(/\/+/g, '/'), { ...options, signal: controller.signal })
+    const url = joinUrl(BASE, path)
+    const res = await fetch(url, { ...options, signal: controller.signal })
     if (!res.ok) {
       const text = await res.text().catch(() => '')
       throw new Error(`HTTP ${res.status} ${res.statusText} ${text}`)
