@@ -1,0 +1,21 @@
+# Render Blueprint for Oraculum backend
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: oraculum-backend
+    env: python
+    plan: free
+    autoDeploy: true
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: MODEL_PROVIDER
+        value: groq
+      - key: MODEL_NAME
+        value: llama-3.1-8b-instant
+      - key: GROQ_API_KEY
+        # Set in Render dashboard after first deploy or via Render CLI; left empty here for security
+        sync: false
+    healthCheckPath: /health
